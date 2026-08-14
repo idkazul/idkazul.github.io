@@ -1,0 +1,285 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  background: #0a0a0c;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "IBM Plex Mono", monospace;
+  cursor: default;
+}
+
+a,
+button,
+[role="button"],
+.social-links a {
+  cursor: pointer;
+}
+
+#load-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 1;
+  visibility: visible;
+  cursor: pointer;
+  flex-direction: column;
+}
+
+#load-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.load-prompt {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(1.2rem, 2vw, 2rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.15em;
+  animation: pulse 2s ease-in-out infinite;
+  user-select: none;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+#particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#ascii-container {
+  position: relative;
+  z-index: 3;
+  width: 600px;
+  max-width: 90vw;
+  height: 280px;
+  max-height: 45vh;
+  background: transparent;
+  pointer-events: none;
+}
+
+.ascii-text-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.ascii-text-container pre {
+  margin: 0;
+  padding: 0;
+  line-height: 1em;
+  text-align: left;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: transparent;
+  background-image: radial-gradient(circle, #ff6188 0%, #fc9867 40%, #ffd866 80%);
+  background-attachment: fixed;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  z-index: 9;
+  user-select: none;
+  font-family: "IBM Plex Mono", monospace;
+  pointer-events: none;
+}
+
+.ascii-text-container canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  background: transparent;
+  pointer-events: none;
+}
+
+.music-controls {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  padding: 0.4rem 0.8rem 0.4rem 0.6rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: opacity 0.4s ease;
+  opacity: 0;
+  animation: fadeIn 2s ease-out forwards;
+  animation-delay: 1s;
+}
+
+.music-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s ease, transform 0.1s ease;
+  width: 24px;
+  height: 24px;
+}
+
+.music-btn:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.music-btn:active {
+  transform: scale(0.9);
+}
+
+.music-btn svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  outline: none;
+  transition: background 0.2s ease;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  border: none;
+}
+
+.volume-slider:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.social-links {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10;
+  display: flex;
+  gap: 1.6rem;
+  animation: fadeIn 2s ease-out forwards;
+  opacity: 0;
+  animation-delay: 1.2s;
+}
+
+.social-links a {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(0.55rem, 0.7vw, 0.7rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.social-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  transition: width 0.3s ease;
+}
+
+.social-links a:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.social-links a:hover::after {
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-links {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    gap: 1rem;
+  }
+  .music-controls {
+    bottom: 1.2rem;
+    left: 1.2rem;
+    padding: 0.3rem 0.6rem 0.3rem 0.4rem;
+    gap: 0.5rem;
+  }
+  .volume-slider {
+    width: 40px;
+  }
+}
