@@ -20,7 +20,7 @@ function playAudio() {
   src = actx.createBufferSource();
   src.buffer = buf;
   src.loop = true;
-  src.detune.value = -300;
+  src.detune.value = -150;
   src.connect(gain);
   src.start(0);
   playing = true;
